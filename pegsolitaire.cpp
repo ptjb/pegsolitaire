@@ -20,9 +20,9 @@ int main(int argc, char** argv)
 
 	std::string name = argv[1];
 
-	board camelot(name.c_str());
-	peg lancelot(0, 0);
-	movelist arthur(lancelot, camelot);
+	Board camelot(name.c_str());
+	Peg lancelot(0, 0);
+	MoveList arthur(lancelot, camelot);
 
 	long long int w=0;
 

@@ -1,6 +1,6 @@
 #include "peg.h"
 
-peg::peg (int a, int b)
+Peg::Peg (int a, int b)
 {
 	pos.first = a;
 	pos.second = b;
@@ -12,53 +12,53 @@ peg::peg (int a, int b)
 }
 
 
-int peg::x () {return pos.first;}
+int Peg::x () {return pos.first;}
 
-int peg::y () {return pos.second;}
+int Peg::y () {return pos.second;}
 
-int peg::x_v () {return vict.first;}
+int Peg::x_v () {return vict.first;}
 
-int peg::y_v () {return vict.second;}
+int Peg::y_v () {return vict.second;}
 
-void peg::setpos(int a, int b)
+void Peg::setpos(int a, int b)
 {
 	pos.first = a;
 	pos.second = b;
 	return;
 }
 
-void peg::setvict(int a, int b)
+void Peg::setvict(int a, int b)
 {
 	vict.first = a;
 	vict.second = b;
 	return;
 }
 
-void peg::rmove (board c)
+void Peg::rmove (Board c)
 {
-	peg::findmoves(c, pos.first, pos.second);
+	Peg::findmoves(c, pos.first, pos.second);
 
 	if (moves.size() == 0) return;
 
 	int r = rand() % moves.size();
 
-	peg::setpos(std::get<2>(moves[r]), std::get<3>(moves[r]));
-	peg::setvict(std::get<0>(moves[r]), std::get<1>(moves[r]));
+	Peg::setpos(std::get<2>(moves[r]), std::get<3>(moves[r]));
+	Peg::setvict(std::get<0>(moves[r]), std::get<1>(moves[r]));
 
 	moves.clear();
 
 	return;	
 }
 
-int peg::nummoves(board c, int a, int b)
+int Peg::nummoves(Board c, int a, int b)
 {
-	peg::findmoves(c,a,b);
+	Peg::findmoves(c,a,b);
 	int d = moves.size();
 	moves.clear();
 	return d;
 }
 
-void peg::findmoves(board c, int a, int b)
+void Peg::findmoves(Board c, int a, int b)
 {
 	moves.clear();
 

@@ -10,14 +10,14 @@
 #include "peg.h"
 #include "board.h"
 
-class movelist
+class MoveList
 {
-	peg k;
-	board d;
+	Peg peg;
+	Board board;
 	std::vector<int> moveables;
 	std::vector<std::tuple<int,int,int,int> > moves;
 	public:
-		movelist(peg, board);
+		MoveList(Peg, Board);
 		void findmoveables();
 		void reset();
 		void selectpeg();

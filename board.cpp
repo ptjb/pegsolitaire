@@ -1,6 +1,6 @@
 #include "board.h"
 
-board::board (const char* a){
+Board::Board (const char* a){
 
 	std::ifstream file;
 	file.open(a);
@@ -25,18 +25,18 @@ board::board (const char* a){
 	height++;		//as the last line had EOF not /n
 	width = ofield.size()/height;
 
-	board::reset();
+	Board::reset();
 }
 
-void board::reset()
+void Board::reset()
 {
 	field = ofield;
 	return;
 }
 
-void board::setval(int a, int b, int c)
+void Board::setval(int a, int b, int c)
 {
-	if (board::checksqpos(a,b))
+	if (Board::checksqpos(a,b))
 	{
 		field[a+width*b] = c;
 		return;
@@ -45,9 +45,9 @@ void board::setval(int a, int b, int c)
 	abort();
 }
 
-int board::getval(int a, int b)
+int Board::getval(int a, int b)
 {
-	if(board::checksqpos(a,b))
+	if(Board::checksqpos(a,b))
 	{
 		int c = field[a+width*b];
 		return c;
@@ -55,23 +55,23 @@ int board::getval(int a, int b)
 	abort();
 }
 
-bool board::checksqpos(int a, int b)
+bool Board::checksqpos(int a, int b)
 {
 	if (a<0 || a>(width-1) || b<0 || b>(height-1)) return false;
 	return true;
 }
 
-bool board::checksqvalmid(int a, int b)
+bool Board::checksqvalmid(int a, int b)
 {
-	if (board::getval(a,b) == 1) return true;
+	if (Board::getval(a,b) == 1) return true;
 	return false;
 }
 
-bool board::checksqvalend(int a, int b)
+bool Board::checksqvalend(int a, int b)
 {
-	if (board::getval(a,b) == 0) return true;
+	if (Board::getval(a,b) == 0) return true;
 	return false;
 }
-int board::getwidth(){return width;}
+int Board::getwidth(){return width;}
 
-int board::getheight(){return height;}
+int Board::getheight(){return height;}

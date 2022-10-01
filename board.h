@@ -7,14 +7,14 @@
 #include <vector>
 #include <fstream>
 
-class board
+class Board
 {
 	int width, height;
 	std::vector<int> field;
 	std::vector<int> ofield;
 
 	public:
-		board(const char*);		//give filename of board
+		Board(const char*);		//give filename of board
 		void reset();
 		void setval(int,int,int);
 		int getval(int,int);
