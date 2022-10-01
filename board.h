@@ -23,12 +23,6 @@ class board
 		bool checksqvalend(int,int);
 		int getwidth();
 		int getheight();
-		//std::vector<int> getfield();
-		//board operator = (const board&);
-
-	//private:
-		//int getvallegal(int,int);
-
 };
 
 #endif

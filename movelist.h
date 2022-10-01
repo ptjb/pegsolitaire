@@ -16,7 +16,6 @@ class movelist
 	board d;
 	std::vector<int> moveables;
 	std::vector<std::tuple<int,int,int,int> > moves;
-	//int t;
 	public:
 		movelist(peg, board);
 		void findmoveables();

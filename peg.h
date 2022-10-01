@@ -15,7 +15,6 @@ class peg
 {
 	std::pair<int,int> pos;
 	std::pair<int,int> vict;		//victim - peg that gets removed
-	//std::pair<int,int> opos;
 	std::vector<std::tuple<int,int,int,int> > moves;
 
 	public:
@@ -24,7 +23,6 @@ class peg
 		int y();
 		int x_v();
 		int y_v();
-		//void reset();
 		void setpos(int,int);
 		void setvict(int,int);
 		void rmove(board);
