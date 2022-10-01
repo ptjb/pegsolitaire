@@ -1,11 +1,12 @@
 #include "movelist.h"
+#include "position.h"
 
-MoveList::MoveList (Peg a, Board b) : peg(a), board(b)
+MoveList::MoveList(Peg a, Board b) : peg(a), board(b)
 {
 	MoveList::findmoveables();
 }
 
-void MoveList::findmoveables (){
+void MoveList::findmoveables(){
 
 	moveables.clear();
 
@@ -13,7 +14,8 @@ void MoveList::findmoveables (){
 	{
 		for (int i=0; i < board.getwidth(); i++)
 		{
-			if (MoveList::canmove(i,j))
+			Position position{.x=i,.y=j};
+			if (MoveList::canmove(position))
 			{
 				moveables.push_back(i+(board.getwidth())*j);
 			} 
@@ -23,71 +25,70 @@ void MoveList::findmoveables (){
 	return;
 }
 
-void MoveList::reset ()
+void MoveList::reset()
 {
 	board.reset();
 	moveables.clear();
-	moves.clear();
+	move_sequence.clear();
 
 	MoveList::findmoveables();
 	return;
 }
 
-void MoveList::selectpeg ()
+void MoveList::selectpeg()
 {
 	//randomly select peg, update peg pos
 
 	int r = rand() % moveables.size();
-	MoveList::setpeg((moveables[r] % board.getwidth()), (moveables[r] / board.getwidth()));		//integer division will kill x coord
+	Position position{.x=(moveables[r] % board.getwidth()),.y=(moveables[r] / board.getwidth())}; //integer division will kill x coord
+	MoveList::setpeg(position);		
 
 	return;
 }
 
-void MoveList::setpeg (int a, int b){
-
-	if (!board.checksqpos(a,b))
+void MoveList::setpeg(Position position)
+{
+	if (!board.checksqpos(position))
 	{
 		return;
 	}
 
-	Position position{.x=a,.y=b};
 	peg.pos = position;
-	std::tuple<int,int,int,int> t = std::make_tuple(a,b,-1,-1);
-	moves.push_back(t);
+	Position new_position{.x=-1,.y=-1};
+	Move t{.new_position=new_position,.position_to_clear=position};//this is dodgey
+	move_sequence.push_back(t);
 	return;
 }
 
-void MoveList::movepeg ()
+void MoveList::movepeg()
 {
-	board.setval(std::get<0>(moves.back()), std::get<1>(moves.back()), 0);		//here there is a valid move so prepare space as if it's moved off	
+	board.setval(move_sequence.back().position_to_clear, 0);		//here there is a valid move so prepare space as if it's moved off	
 
 	peg.rmove(board);
 
-	board.setval(peg.pos.x, peg.pos.y, 1);
-	board.setval(peg.vict.x, peg.vict.y, 0);
+	board.setval(peg.pos, 1);
+	board.setval(peg.vict, 0);
 
 	return;
 }
 
-bool MoveList::canmove (int a, int b)
+bool MoveList::canmove(Position position)
 {
-	if (board.getval(a,b) != 1) return false;
-	Position position{.x=a,.y=b};
+	if (board.getval(position) != 1) return false;
 	if (peg.nummoves(board,position) == 0) return false;
 
 	return true;
 }
 
-void MoveList::walkabout ()
+void MoveList::walkabout()
 {
 	while (moveables.size() != 0)
 	{
 		MoveList::selectpeg();
 		MoveList::movepeg();
-		std::tuple<int,int,int,int> t = moves.back();
-		std::get<2>(t) = peg.pos.x;
-		std::get<3>(t) = peg.pos.y;
-		moves.back() = t;
+		Move t = move_sequence.back();
+		t.new_position = peg.pos;
+		move_sequence.back() = t;
 
 		MoveList::findmoveables();
 	}
@@ -103,13 +104,14 @@ int MoveList::numpegs(){
 	{
 		for (int i=0; i < board.getwidth(); i++)
 		{
-			if (board.getval(i,j) == 1) a++;
+			Position position{.x=i,.y=j};
+			if (board.getval(position) == 1) a++;
 		}
 	}
 
 	return a;
 }
 
-std::tuple<int,int,int,int> MoveList::getmove(int a) {return moves[a];}
+Move MoveList::getmove(int a) {return move_sequence[a];}
 
-int MoveList::getlength() {return moves.size();}
+int MoveList::getlength() {return move_sequence.size();}

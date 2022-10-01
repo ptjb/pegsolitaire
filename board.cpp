@@ -1,4 +1,5 @@
 #include "board.h"
+#include "position.h"
 
 Board::Board (const char* a){
 
@@ -34,44 +35,46 @@ void Board::reset()
 	return;
 }
 
-void Board::setval(int a, int b, int c)
+void Board::setval(Position position, int c)
 {
-	if (Board::checksqpos(a,b))
+	if (Board::checksqpos(position))
 	{
-		field[a+width*b] = c;
+		field[_GetFieldIndex(position)] = c;
 		return;
 	}
 	abort();
 }
 
-int Board::getval(int a, int b)
+int Board::getval(Position position)
 {
-	if(Board::checksqpos(a,b))
+	if(Board::checksqpos(position))
 	{
-		int c = field[a+width*b];
+		int c = field[_GetFieldIndex(position)];
 		return c;
 	}
 	abort();
 }
 
-bool Board::checksqpos(int a, int b)
+bool Board::checksqpos(Position position)
 {
-	if (a<0 || a>(width-1) || b<0 || b>(height-1)) return false;
-	return true;
+	return position.x>=0 && position.x<=(width-1) && position.y>=0 && position.y<=(height-1);
 }
 
-bool Board::checksqvalmid(int a, int b)
+bool Board::checksqvalmid(Position position)
 {
-	if (Board::getval(a,b) == 1) return true;
-	return false;
+	return Board::getval(position) == 1;
 }
 
-bool Board::checksqvalend(int a, int b)
+bool Board::checksqvalend(Position position)
 {
-	if (Board::getval(a,b) == 0) return true;
-	return false;
+	return Board::getval(position) == 0;
 }
 
 int Board::getwidth(){return width;}
 
 int Board::getheight(){return height;}
+
+int Board::_GetFieldIndex(Position position)
+{
+	return position.x+width*(position.y);
+}

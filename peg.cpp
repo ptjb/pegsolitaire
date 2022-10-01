@@ -29,8 +29,7 @@ void Peg::rmove(Board c)
 int Peg::nummoves(Board c, Position position)
 {
 	std::vector<Move> moves = Peg::findmoves(c,position,_move_generator);
-	int d = moves.size();
-	return d;
+	return moves.size();
 }
 
 std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_generator)
@@ -46,7 +45,10 @@ std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_
 	std::vector<Move> valid_moves;
 	for (Move move : moves)
 	{
-		if (c.checksqpos(move.position_to_clear.x, move.position_to_clear.y) && c.checksqpos(move.new_position.x, move.new_position.y) && c.checksqvalmid(move.position_to_clear.x, move.position_to_clear.y) && c.checksqvalend(move.new_position.x, move.new_position.y)) valid_moves.push_back(move);
+		if (c.checksqpos(move.position_to_clear) && c.checksqpos(move.new_position) && c.checksqvalmid(move.position_to_clear) && c.checksqvalend(move.new_position))
+		{
+			valid_moves.push_back(move);
+		}
 	}
 
 	return valid_moves;

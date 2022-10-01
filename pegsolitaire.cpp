@@ -8,6 +8,7 @@
 #include "peg.h"
 #include "board.h"
 #include "movelist.h"
+#include "move.h"
 
 int main(int argc, char** argv)
 {
@@ -36,12 +37,12 @@ int main(int argc, char** argv)
 
 	}
 
-	std::tuple<int,int,int,int> t;
+	Move t;
 
 	for (int i=0; i<arthur.getlength(); i++){
 
 		t = arthur.getmove(i);
-		std::cout << "(" << std::get<0>(t) << "," << std::get<1>(t) << ") --> (" << std::get<2>(t) << "," << std::get<3>(t) << ")" << std::endl; 
+		std::cout << "(" << t.position_to_clear.x << "," << t.position_to_clear.y << ") --> (" << t.new_position.x << "," << t.new_position.y << ")" << std::endl; 
 	}
 
 	return 0;

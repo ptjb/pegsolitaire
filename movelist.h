@@ -10,24 +10,25 @@
 #include "position.h"
 #include "peg.h"
 #include "board.h"
+#include "move.h"
 
 class MoveList
 {
 	Peg peg;
 	Board board;
 	std::vector<int> moveables;
-	std::vector<std::tuple<int,int,int,int> > moves;
+	std::vector<Move> move_sequence;
 	public:
 		MoveList(Peg, Board);
 		void findmoveables();
 		void reset();
 		void selectpeg();
-		void setpeg(int,int);
+		void setpeg(Position);
 		void movepeg();
-		bool canmove(int,int);
+		bool canmove(Position);
 		void walkabout();
 		int numpegs();
-		std::tuple<int,int,int,int> getmove(int);
+		Move getmove(int);
 		int getlength();
 };
 
