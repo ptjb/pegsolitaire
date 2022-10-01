@@ -10,26 +10,24 @@
 #include "position.h"
 #include "peg.h"
 #include "board.h"
-#include "move.h"
+#include "pegmove.h"
 
 class MoveList
 {
 	Peg peg;
 	Board board;
 	std::vector<int> moveables;
-	std::vector<Move> move_sequence;
 	public:
+		std::vector<PegMove> move_sequence;
+		
 		MoveList(Peg, Board);
 		void findmoveables();
 		void reset();
-		void selectpeg();
-		void setpeg(Position);
-		void movepeg();
+		Position selectpeg();
+		void movepeg(Position);
 		bool canmove(Position);
 		void walkabout();
 		int numpegs();
-		Move getmove(int);
-		int getlength();
 };
 
 #endif

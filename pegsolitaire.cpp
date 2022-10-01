@@ -9,6 +9,7 @@
 #include "board.h"
 #include "movelist.h"
 #include "move.h"
+#include "pegmove.h"
 
 int main(int argc, char** argv)
 {
@@ -37,12 +38,9 @@ int main(int argc, char** argv)
 
 	}
 
-	Move t;
-
-	for (int i=0; i<arthur.getlength(); i++){
-
-		t = arthur.getmove(i);
-		std::cout << "(" << t.position_to_clear.x << "," << t.position_to_clear.y << ") --> (" << t.new_position.x << "," << t.new_position.y << ")" << std::endl; 
+	for (PegMove move : arthur.move_sequence)
+	{
+		std::cout << "(" << move.initial_position.x << "," << move.initial_position.y << ") --> (" << move.final_position.x << "," << move.final_position.y << ")" << std::endl; 
 	}
 
 	return 0;

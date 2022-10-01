@@ -35,34 +35,19 @@ void MoveList::reset()
 	return;
 }
 
-void MoveList::selectpeg()
+Position MoveList::selectpeg()
 {
 	//randomly select peg, update peg pos
 
 	int r = rand() % moveables.size();
 	Position position{.x=(moveables[r] % board.getwidth()),.y=(moveables[r] / board.getwidth())}; //integer division will kill x coord
-	MoveList::setpeg(position);		
-
-	return;
+	return position;
 }
 
-void MoveList::setpeg(Position position)
+void MoveList::movepeg(Position position)
 {
-	if (!board.checksqpos(position))
-	{
-		return;
-	}
-
 	peg.pos = position;
-	Position new_position{.x=-1,.y=-1};
-	Move t{.new_position=new_position,.position_to_clear=position};//this is dodgey
-	move_sequence.push_back(t);
-	return;
-}
-
-void MoveList::movepeg()
-{
-	board.setval(move_sequence.back().position_to_clear, 0);		//here there is a valid move so prepare space as if it's moved off	
+	board.setval(peg.pos, 0);//here there is a valid move so prepare space as if it's moved off	
 
 	peg.rmove(board);
 
@@ -84,11 +69,10 @@ void MoveList::walkabout()
 {
 	while (moveables.size() != 0)
 	{
-		MoveList::selectpeg();
-		MoveList::movepeg();
-		Move t = move_sequence.back();
-		t.new_position = peg.pos;
-		move_sequence.back() = t;
+		Position initial_peg_position = MoveList::selectpeg();
+		MoveList::movepeg(initial_peg_position);
+		PegMove t{.initial_position=initial_peg_position,.final_position=peg.pos};
+		move_sequence.push_back(t);
 
 		MoveList::findmoveables();
 	}
@@ -111,7 +95,3 @@ int MoveList::numpegs(){
 
 	return a;
 }
-
-Move MoveList::getmove(int a) {return move_sequence[a];}
-
-int MoveList::getlength() {return move_sequence.size();}
