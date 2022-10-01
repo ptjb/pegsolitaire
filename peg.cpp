@@ -2,7 +2,7 @@
 
 #include "peg.h"
 
-Peg::Peg(Position position) : pos(position)
+Peg::Peg(Position position, MoveGenerator move_generator) : pos(position), _move_generator(move_generator)
 {
 	vict.x = 0;
 	vict.y = 0;
@@ -12,47 +12,42 @@ Peg::Peg(Position position) : pos(position)
 
 void Peg::rmove(Board c)
 {
-	Peg::findmoves(c, pos);
+	std::vector<Move> moves = Peg::findmoves(c, pos, _move_generator);
 
 	if (moves.size() == 0) return;
 
 	int r = rand() % moves.size();
 
-	Position newpos {.x=std::get<2>(moves[r]),.y=std::get<3>(moves[r])};
-	pos = newpos;
-	Position newvict {.x=std::get<0>(moves[r]),.y=std::get<1>(moves[r])};
-	vict = newvict;
+	Move random_move = moves[r];
 
-	moves.clear();
+	pos = random_move.new_position;
+	vict = random_move.position_to_clear;
 
 	return;	
 }
 
 int Peg::nummoves(Board c, Position position)
 {
-	Peg::findmoves(c,position);
+	std::vector<Move> moves = Peg::findmoves(c,position,_move_generator);
 	int d = moves.size();
-	moves.clear();
 	return d;
 }
 
-void Peg::findmoves(Board c, Position position)
+std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_generator)
 {
-	moves.clear();
+	Move moves[] =
+	{
+		move_generator.GenerateNorthMove(position),
+		move_generator.GenerateEastMove(position),
+		move_generator.GenerateSouthMove(position),
+		move_generator.GenerateWestMove(position)
+	};
 
-	int a = position.x;
-	int b = position.y;
+	std::vector<Move> valid_moves;
+	for (Move move : moves)
+	{
+		if (c.checksqpos(move.position_to_clear.x, move.position_to_clear.y) && c.checksqpos(move.new_position.x, move.new_position.y) && c.checksqvalmid(move.position_to_clear.x, move.position_to_clear.y) && c.checksqvalend(move.new_position.x, move.new_position.y)) valid_moves.push_back(move);
+	}
 
-	std::tuple<int,int,int,int> trans[4];		//(jumped_over_x,jumped_over_y,moved_to_x,moved_to_y)
-	trans[0] = std::make_tuple(a,b+1,a,b+2);	//						0
-	trans[1] = std::make_tuple(a+1,b,a+2,b);	//						|
-	trans[2] = std::make_tuple(a,b-1,a,b-2);	//					 3--x--1
-	trans[3] = std::make_tuple(a-1,b,a-2,b);	//						|
-												//						2
-	for (int i=0; i<4; i++){
-
-		if (c.checksqpos(std::get<0>(trans[i]), std::get<1>(trans[i])) && c.checksqpos(std::get<2>(trans[i]), std::get<3>(trans[i])) && c.checksqvalmid(std::get<0>(trans[i]), std::get<1>(trans[i])) && c.checksqvalend(std::get<2>(trans[i]), std::get<3>(trans[i]))) moves.push_back(trans[i]);
-	}	//run checks on leapt over position and leapt to position and make sure they are both valid
-
-	return;
+	return valid_moves;
 }

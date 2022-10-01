@@ -5,8 +5,8 @@
 
 struct Move
 {
-    Position source;
-    Position target;
+    Position new_position;
+    Position position_to_clear;
 };
 
 #endif

@@ -21,7 +21,8 @@ int main(int argc, char** argv)
 
 	Board camelot(name.c_str());
 	Position initial_peg_position{.x=0,.y=0};
-	Peg lancelot(initial_peg_position);
+	MoveGenerator move_generator;
+	Peg lancelot(initial_peg_position, move_generator);
 	MoveList arthur(lancelot, camelot);
 
 	long long int w=0;

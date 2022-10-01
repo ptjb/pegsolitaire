@@ -9,20 +9,22 @@
 #include <time.h>
 
 #include "position.h"
+#include "move.h"
 #include "board.h"
+#include "movegenerator.h"
 
 struct Peg
 {
 	Position pos;
 	Position vict;		//victim - peg that gets removed
-	std::vector<std::tuple<int,int,int,int> > moves;
+	MoveGenerator _move_generator;
 
-	Peg(Position);
+	Peg(Position, MoveGenerator);
 	void rmove(Board);
 	int nummoves(Board,Position);
 
 	private:
-		void findmoves(Board,Position);
+		std::vector<Move> findmoves(Board,Position,MoveGenerator);
 };
 
 #endif
