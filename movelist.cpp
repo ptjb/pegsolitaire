@@ -72,7 +72,8 @@ void MoveList::movepeg ()
 bool MoveList::canmove (int a, int b)
 {
 	if (board.getval(a,b) != 1) return false;
-	if (peg.nummoves(board,a,b) == 0) return false;
+	Position position{.x=a,.y=b};
+	if (peg.nummoves(board,position) == 0) return false;
 
 	return true;
 }

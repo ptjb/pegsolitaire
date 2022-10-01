@@ -41,7 +41,6 @@ int main(int argc, char** argv)
 
 		t = arthur.getmove(i);
 		std::cout << "(" << std::get<0>(t) << "," << std::get<1>(t) << ") --> (" << std::get<2>(t) << "," << std::get<3>(t) << ")" << std::endl; 
-
 	}
 
 	return 0;

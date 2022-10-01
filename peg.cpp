@@ -12,7 +12,7 @@ Peg::Peg(Position position) : pos(position)
 
 void Peg::rmove(Board c)
 {
-	Peg::findmoves(c, pos.x, pos.y);
+	Peg::findmoves(c, pos);
 
 	if (moves.size() == 0) return;
 
@@ -28,17 +28,20 @@ void Peg::rmove(Board c)
 	return;	
 }
 
-int Peg::nummoves(Board c, int a, int b)
+int Peg::nummoves(Board c, Position position)
 {
-	Peg::findmoves(c,a,b);
+	Peg::findmoves(c,position);
 	int d = moves.size();
 	moves.clear();
 	return d;
 }
 
-void Peg::findmoves(Board c, int a, int b)
+void Peg::findmoves(Board c, Position position)
 {
 	moves.clear();
+
+	int a = position.x;
+	int b = position.y;
 
 	std::tuple<int,int,int,int> trans[4];		//(jumped_over_x,jumped_over_y,moved_to_x,moved_to_y)
 	trans[0] = std::make_tuple(a,b+1,a,b+2);	//						0

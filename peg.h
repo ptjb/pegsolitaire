@@ -19,10 +19,10 @@ struct Peg
 
 	Peg(Position);
 	void rmove(Board);
-	int nummoves(Board,int,int);
+	int nummoves(Board,Position);
 
 	private:
-		void findmoves(Board,int,int);
+		void findmoves(Board,Position);
 };
 
 #endif
