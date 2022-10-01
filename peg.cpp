@@ -1,49 +1,27 @@
+#include <tuple>
+
 #include "peg.h"
 
-Peg::Peg (int a, int b)
+Peg::Peg(Position position) : pos(position)
 {
-	pos.first = a;
-	pos.second = b;
-
-	vict.first = 0;
-	vict.second = 0;
+	vict.x = 0;
+	vict.y = 0;
 
 	srand(time(NULL));
 }
 
-
-int Peg::x () {return pos.first;}
-
-int Peg::y () {return pos.second;}
-
-int Peg::x_v () {return vict.first;}
-
-int Peg::y_v () {return vict.second;}
-
-void Peg::setpos(int a, int b)
+void Peg::rmove(Board c)
 {
-	pos.first = a;
-	pos.second = b;
-	return;
-}
-
-void Peg::setvict(int a, int b)
-{
-	vict.first = a;
-	vict.second = b;
-	return;
-}
-
-void Peg::rmove (Board c)
-{
-	Peg::findmoves(c, pos.first, pos.second);
+	Peg::findmoves(c, pos.x, pos.y);
 
 	if (moves.size() == 0) return;
 
 	int r = rand() % moves.size();
 
-	Peg::setpos(std::get<2>(moves[r]), std::get<3>(moves[r]));
-	Peg::setvict(std::get<0>(moves[r]), std::get<1>(moves[r]));
+	Position newpos {.x=std::get<2>(moves[r]),.y=std::get<3>(moves[r])};
+	pos = newpos;
+	Position newvict {.x=std::get<0>(moves[r]),.y=std::get<1>(moves[r])};
+	vict = newvict;
 
 	moves.clear();
 

@@ -7,6 +7,7 @@
 #include <utility>
 #include <tuple>
 
+#include "position.h"
 #include "peg.h"
 #include "board.h"
 

@@ -41,7 +41,6 @@ void Board::setval(int a, int b, int c)
 		field[a+width*b] = c;
 		return;
 	}
-	
 	abort();
 }
 
@@ -72,6 +71,7 @@ bool Board::checksqvalend(int a, int b)
 	if (Board::getval(a,b) == 0) return true;
 	return false;
 }
+
 int Board::getwidth(){return width;}
 
 int Board::getheight(){return height;}

@@ -13,8 +13,8 @@ void MoveList::findmoveables (){
 	{
 		for (int i=0; i < board.getwidth(); i++)
 		{
-			if (MoveList::canmove(i,j)){
-
+			if (MoveList::canmove(i,j))
+			{
 				moveables.push_back(i+(board.getwidth())*j);
 			} 
 		}
@@ -50,7 +50,8 @@ void MoveList::setpeg (int a, int b){
 		return;
 	}
 
-	peg.setpos(a,b);
+	Position position{.x=a,.y=b};
+	peg.pos = position;
 	std::tuple<int,int,int,int> t = std::make_tuple(a,b,-1,-1);
 	moves.push_back(t);
 	return;
@@ -62,8 +63,8 @@ void MoveList::movepeg ()
 
 	peg.rmove(board);
 
-	board.setval(peg.x(), peg.y(), 1);
-	board.setval(peg.x_v(), peg.y_v(), 0);
+	board.setval(peg.pos.x, peg.pos.y, 1);
+	board.setval(peg.vict.x, peg.vict.y, 0);
 
 	return;
 }
@@ -83,8 +84,8 @@ void MoveList::walkabout ()
 		MoveList::selectpeg();
 		MoveList::movepeg();
 		std::tuple<int,int,int,int> t = moves.back();
-		std::get<2>(t) = peg.x();
-		std::get<3>(t) = peg.y();
+		std::get<2>(t) = peg.pos.x;
+		std::get<3>(t) = peg.pos.y;
 		moves.back() = t;
 
 		MoveList::findmoveables();

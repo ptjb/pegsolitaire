@@ -1,6 +1,4 @@
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <cstdlib>
 #include <cmath>
 #include <time.h>
@@ -16,12 +14,14 @@ int main(int argc, char** argv)
 	if (argc < 2)
 	{
 		std::cout << "\nInvalid number of arguments\nFormat Name\n" << std::endl;
+		return -1;
 	}
 
 	std::string name = argv[1];
 
 	Board camelot(name.c_str());
-	Peg lancelot(0, 0);
+	Position initial_peg_position{.x=0,.y=0};
+	Peg lancelot(initial_peg_position);
 	MoveList arthur(lancelot, camelot);
 
 	long long int w=0;
@@ -35,22 +35,14 @@ int main(int argc, char** argv)
 
 	}
 
-	std::stringstream outname;
-	outname << "solution_for_" << name << "_" << time(NULL) << ".txt";
-
-	std::ofstream sol;
-	sol.open((outname.str()).c_str());
-
 	std::tuple<int,int,int,int> t;
 
 	for (int i=0; i<arthur.getlength(); i++){
 
 		t = arthur.getmove(i);
-
-		sol << "(" << std::get<0>(t) << "," << std::get<1>(t) << ") --> (" << std::get<2>(t) << "," << std::get<3>(t) << ")\n"; 
+		std::cout << "(" << std::get<0>(t) << "," << std::get<1>(t) << ") --> (" << std::get<2>(t) << "," << std::get<3>(t) << ")" << std::endl; 
 
 	}
 
-	sol.close();
 	return 0;
 }
