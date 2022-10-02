@@ -17,16 +17,14 @@ class MoveList
 	Peg peg;
 	Board board;
 	std::vector<int> moveables;
-	public:
-		std::vector<PegMove> move_sequence;
-		
+	public:		
 		MoveList(Peg, Board);
 		void findmoveables();
 		void reset();
 		Position selectpeg();
 		void movepeg(Position);
 		bool canmove(Position);
-		void walkabout();
+		std::vector<PegMove> walkabout();
 		int numpegs();
 };
 

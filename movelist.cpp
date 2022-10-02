@@ -29,7 +29,6 @@ void MoveList::reset()
 {
 	board.reset();
 	moveables.clear();
-	move_sequence.clear();
 
 	MoveList::findmoveables();
 	return;
@@ -65,8 +64,9 @@ bool MoveList::canmove(Position position)
 	return true;
 }
 
-void MoveList::walkabout()
+std::vector<PegMove> MoveList::walkabout()
 {
+	std::vector<PegMove> move_sequence;
 	while (moveables.size() != 0)
 	{
 		Position initial_peg_position = MoveList::selectpeg();
@@ -77,7 +77,7 @@ void MoveList::walkabout()
 		MoveList::findmoveables();
 	}
 
-	return;
+	return move_sequence;
 }
 
 int MoveList::numpegs(){

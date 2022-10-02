@@ -29,16 +29,17 @@ int main(int argc, char** argv)
 
 	long long int w=0;
 
+	std::vector<PegMove> move_sequence;
 	while (arthur.numpegs() != 1){
 
 		arthur.reset();
-		arthur.walkabout();
+		move_sequence = arthur.walkabout();
 		w++;
 		if (w % (long long int)1000 == (long long int)0) std::cout << w << std::endl;
 
 	}
 
-	for (PegMove move : arthur.move_sequence)
+	for (PegMove move : move_sequence)
 	{
 		std::cout << "(" << move.initial_position.x << "," << move.initial_position.y << ") --> (" << move.final_position.x << "," << move.final_position.y << ")" << std::endl; 
 	}
