@@ -22,9 +22,8 @@ int main(int argc, char** argv)
 	std::string name = argv[1];
 
 	Board camelot(name.c_str());
-	Position initial_peg_position{.x=0,.y=0};
 	MoveGenerator move_generator;
-	Peg lancelot(initial_peg_position, move_generator);
+	Peg lancelot(move_generator);
 	MoveList arthur(lancelot, camelot);
 
 	long long int w=0;

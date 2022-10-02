@@ -44,10 +44,9 @@ Position MoveList::selectpeg()
 	return position;
 }
 
-Move MoveList::movepeg(Position position)
+Move MoveList::movepeg(Position peg_position)
 {
-	peg.pos = position;
-	Move move = peg.rmove(board);
+	Move move = peg.rmove(board,peg_position);
 
 	board.setval(move.peg_move.initial_position, 0);
 	board.setval(move.position_to_clear, 0);

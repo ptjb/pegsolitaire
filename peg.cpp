@@ -2,17 +2,14 @@
 
 #include "peg.h"
 
-Peg::Peg(Position position, MoveGenerator move_generator) : pos(position), _move_generator(move_generator)
+Peg::Peg(MoveGenerator move_generator) : _move_generator(move_generator)
 {
-	vict.x = 0;
-	vict.y = 0;
-
 	srand(time(NULL));
 }
 
-Move Peg::rmove(Board c)
+Move Peg::rmove(Board c, Position peg_position)
 {
-	std::vector<Move> moves = Peg::findmoves(c, pos, _move_generator);
+	std::vector<Move> moves = Peg::findmoves(c, peg_position, _move_generator);
 
 	if (moves.size() == 0) abort();
 

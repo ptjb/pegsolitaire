@@ -15,12 +15,10 @@
 
 struct Peg
 {
-	Position pos;
-	Position vict;		//victim - peg that gets removed
 	MoveGenerator _move_generator;
 
-	Peg(Position, MoveGenerator);
-	Move rmove(Board);
+	Peg(MoveGenerator);
+	Move rmove(Board,Position);
 	int nummoves(Board,Position);
 
 	private:
