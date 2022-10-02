@@ -20,7 +20,7 @@ struct Peg
 	MoveGenerator _move_generator;
 
 	Peg(Position, MoveGenerator);
-	void rmove(Board);
+	Move rmove(Board);
 	int nummoves(Board,Position);
 
 	private:

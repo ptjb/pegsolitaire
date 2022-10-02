@@ -1,5 +1,6 @@
 #include "movelist.h"
 #include "position.h"
+#include "move.h"
 
 MoveList::MoveList(Peg a, Board b) : peg(a), board(b)
 {
@@ -43,17 +44,16 @@ Position MoveList::selectpeg()
 	return position;
 }
 
-void MoveList::movepeg(Position position)
+Move MoveList::movepeg(Position position)
 {
 	peg.pos = position;
-	board.setval(peg.pos, 0);//here there is a valid move so prepare space as if it's moved off	
+	Move move = peg.rmove(board);
 
-	peg.rmove(board);
+	board.setval(move.peg_move.initial_position, 0);
+	board.setval(move.position_to_clear, 0);
+	board.setval(move.peg_move.final_position, 1);
 
-	board.setval(peg.pos, 1);
-	board.setval(peg.vict, 0);
-
-	return;
+	return move;
 }
 
 bool MoveList::canmove(Position position)
@@ -70,9 +70,8 @@ std::vector<PegMove> MoveList::walkabout()
 	while (moveables.size() != 0)
 	{
 		Position initial_peg_position = MoveList::selectpeg();
-		MoveList::movepeg(initial_peg_position);
-		PegMove t{.initial_position=initial_peg_position,.final_position=peg.pos};
-		move_sequence.push_back(t);
+		Move move_taken = MoveList::movepeg(initial_peg_position);
+		move_sequence.push_back(move_taken.peg_move);
 
 		MoveList::findmoveables();
 	}

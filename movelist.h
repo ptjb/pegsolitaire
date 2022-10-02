@@ -22,7 +22,7 @@ class MoveList
 		void findmoveables();
 		void reset();
 		Position selectpeg();
-		void movepeg(Position);
+		Move movepeg(Position);
 		bool canmove(Position);
 		std::vector<PegMove> walkabout();
 		int numpegs();

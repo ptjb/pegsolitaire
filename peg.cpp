@@ -10,20 +10,15 @@ Peg::Peg(Position position, MoveGenerator move_generator) : pos(position), _move
 	srand(time(NULL));
 }
 
-void Peg::rmove(Board c)
+Move Peg::rmove(Board c)
 {
 	std::vector<Move> moves = Peg::findmoves(c, pos, _move_generator);
 
-	if (moves.size() == 0) return;
+	if (moves.size() == 0) abort();
 
 	int r = rand() % moves.size();
 
-	Move random_move = moves[r];
-
-	pos = random_move.new_position;
-	vict = random_move.position_to_clear;
-
-	return;	
+	return moves[r];
 }
 
 int Peg::nummoves(Board c, Position position)
@@ -45,7 +40,7 @@ std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_
 	std::vector<Move> valid_moves;
 	for (Move move : moves)
 	{
-		if (c.checksqpos(move.position_to_clear) && c.checksqpos(move.new_position) && c.checksqvalmid(move.position_to_clear) && c.checksqvalend(move.new_position))
+		if (c.checksqpos(move.position_to_clear) && c.checksqpos(move.peg_move.final_position) && c.checksqvalmid(move.position_to_clear) && c.checksqvalend(move.peg_move.final_position))
 		{
 			valid_moves.push_back(move);
 		}

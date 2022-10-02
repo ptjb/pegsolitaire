@@ -2,10 +2,11 @@
 #define MOVE_H
 
 #include "position.h"
+#include "pegmove.h"
 
 struct Move
 {
-    Position new_position;
+    PegMove peg_move;
     Position position_to_clear;
 };
 
