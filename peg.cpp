@@ -9,7 +9,7 @@ Peg::Peg(MoveGenerator move_generator, MoveValidator move_validator) : _move_gen
 
 Move Peg::rmove(Board c, Position peg_position)
 {
-	std::vector<Move> moves = Peg::findmoves(c, peg_position, _move_generator);
+	std::vector<Move> moves = Peg::findmoves(c, peg_position, _move_generator, _move_validator);
 
 	if (moves.size() == 0) abort();
 
@@ -20,11 +20,11 @@ Move Peg::rmove(Board c, Position peg_position)
 
 int Peg::nummoves(Board c, Position position)
 {
-	std::vector<Move> moves = Peg::findmoves(c,position,_move_generator);
+	std::vector<Move> moves = Peg::findmoves(c,position,_move_generator,_move_validator);
 	return moves.size();
 }
 
-std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_generator)
+std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_generator, MoveValidator move_validator)
 {
 	Move moves[] =
 	{
@@ -37,7 +37,7 @@ std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_
 	std::vector<Move> valid_moves;
 	for (Move move : moves)
 	{
-		if(_move_validator.IsValidMove(c,move))
+		if(move_validator.IsValidMove(c,move))
 		{
 			valid_moves.push_back(move);
 		}

@@ -24,7 +24,7 @@ struct Peg
 	int nummoves(Board,Position);
 
 	private:
-		std::vector<Move> findmoves(Board,Position,MoveGenerator);
+		std::vector<Move> findmoves(Board,Position,MoveGenerator,MoveValidator);
 };
 
 #endif
