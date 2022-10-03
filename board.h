@@ -20,13 +20,13 @@ class Board
 		void reset();
 		void setval(Position,int);
 		int getval(Position);
-		bool checksqpos(Position);
-		bool checksqvalmid(Position);
-		bool checksqvalend(Position);
+		bool IsOccupiedSpace(Position);
+		bool IsEmptySpace(Position);
 		int getwidth();
 		int getheight();
 	private:
 		int _GetFieldIndex(Position);
+		bool _IsWithinBounds(Position);
 };
 
 #endif

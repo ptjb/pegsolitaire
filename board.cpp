@@ -37,35 +37,29 @@ void Board::reset()
 
 void Board::setval(Position position, int c)
 {
-	if (Board::checksqpos(position))
+	if (!Board::_IsWithinBounds(position))
 	{
-		field[_GetFieldIndex(position)] = c;
 		return;
 	}
-	abort();
+	field[Board::_GetFieldIndex(position)] = c;
+	return;
 }
 
 int Board::getval(Position position)
 {
-	if(Board::checksqpos(position))
+	if(!Board::_IsWithinBounds(position))
 	{
-		int c = field[_GetFieldIndex(position)];
-		return c;
+		return -1;
 	}
-	abort();
+	return field[Board::_GetFieldIndex(position)];
 }
 
-bool Board::checksqpos(Position position)
-{
-	return position.x>=0 && position.x<=(width-1) && position.y>=0 && position.y<=(height-1);
-}
-
-bool Board::checksqvalmid(Position position)
+bool Board::IsOccupiedSpace(Position position)
 {
 	return Board::getval(position) == 1;
 }
 
-bool Board::checksqvalend(Position position)
+bool Board::IsEmptySpace(Position position)
 {
 	return Board::getval(position) == 0;
 }
@@ -77,4 +71,9 @@ int Board::getheight(){return height;}
 int Board::_GetFieldIndex(Position position)
 {
 	return position.x+width*(position.y);
+}
+
+bool Board::_IsWithinBounds(Position position)
+{
+	return position.x>=0 && position.x<=(width-1) && position.y>=0 && position.y<=(height-1);
 }
