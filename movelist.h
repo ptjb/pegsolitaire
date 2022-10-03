@@ -19,6 +19,7 @@ class MoveList
 	std::vector<int> moveables;
 	public:		
 		MoveList(Peg, Board);
+		//std::vector<Move> FindAvailableMoves(Board);
 		void findmoveables();
 		void reset();
 		Position selectpeg();

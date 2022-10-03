@@ -2,7 +2,7 @@
 
 #include "peg.h"
 
-Peg::Peg(MoveGenerator move_generator) : _move_generator(move_generator)
+Peg::Peg(MoveGenerator move_generator, MoveValidator move_validator) : _move_generator(move_generator), _move_validator(move_validator)
 {
 	srand(time(NULL));
 }
@@ -37,7 +37,7 @@ std::vector<Move> Peg::findmoves(Board c, Position position, MoveGenerator move_
 	std::vector<Move> valid_moves;
 	for (Move move : moves)
 	{
-		if (c.checksqpos(move.position_to_clear) && c.checksqpos(move.peg_move.final_position) && c.checksqvalmid(move.position_to_clear) && c.checksqvalend(move.peg_move.final_position))
+		if(_move_validator.IsValidMove(c,move))
 		{
 			valid_moves.push_back(move);
 		}

@@ -23,7 +23,8 @@ int main(int argc, char** argv)
 
 	Board camelot(name.c_str());
 	MoveGenerator move_generator;
-	Peg lancelot(move_generator);
+	MoveValidator move_validator;
+	Peg lancelot(move_generator, move_validator);
 	MoveList arthur(lancelot, camelot);
 
 	long long int w=0;

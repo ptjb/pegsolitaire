@@ -12,12 +12,14 @@
 #include "move.h"
 #include "board.h"
 #include "movegenerator.h"
+#include "movevalidator.h"
 
 struct Peg
 {
 	MoveGenerator _move_generator;
+	MoveValidator _move_validator;
 
-	Peg(MoveGenerator);
+	Peg(MoveGenerator,MoveValidator);
 	Move rmove(Board,Position);
 	int nummoves(Board,Position);
 
